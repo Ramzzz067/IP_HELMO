@@ -1,0 +1,103 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_labo0708_vm_name": {
+            "defaultValue": "labo0708-vm",
+            "type": "String"
+        },
+        "disks_labo0708_vm_disk1_da66e772e800466089b086ea3c7a1378_externalid": {
+            "defaultValue": "/subscriptions/c1847f93-4eca-481f-bf44-45187e4b50e4/resourceGroups/Laboratoire0708/providers/Microsoft.Compute/disks/labo0708-vm_disk1_da66e772e800466089b086ea3c7a1378",
+            "type": "String"
+        },
+        "networkInterfaces_labo0708_vm180_z3_externalid": {
+            "defaultValue": "/subscriptions/c1847f93-4eca-481f-bf44-45187e4b50e4/resourceGroups/Laboratoire0708/providers/Microsoft.Network/networkInterfaces/labo0708-vm180_z3",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2023-03-01",
+            "name": "[parameters('virtualMachines_labo0708_vm_name')]",
+            "location": "westeurope",
+            "zones": [
+                "3"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B1s"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "canonical",
+                        "offer": "0001-com-ubuntu-server-focal",
+                        "sku": "20_04-lts-gen2",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('virtualMachines_labo0708_vm_name'), '_disk1_da66e772e800466089b086ea3c7a1378')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_labo0708_vm_disk1_da66e772e800466089b086ea3c7a1378_externalid')]"
+                        },
+                        "deleteOption": "Delete",
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": [],
+                    "diskControllerType": "SCSI"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_labo0708_vm_name')]",
+                    "adminUsername": "azureuser",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/azureuser/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC6eh555cUwaDqgGhhPGj9BCOWwZM91dzLyy/coEKFnauGUeO7YBU/yzEEp8wwHpLYBpp7QVQlKrvkb3xE+DI/IwrqlsHfk3z6/7LiQQReTnSGQ31n8BTTfW3o7yKzP/ZDcZGaU3vU0aFDnS1nkcgWubRU8WmLg+p5NvpTNzY6PqjKKsTmclrQ9LfbzoajhMuIvNPi7pMfmbrxXarksHMwMgTGhsX6xhjAi/PwPa1Ox0Z2Tf/x5f2DHaIwymEXK+G6YkCiJL9JToXXKvtb3sXbz+/SW10TaE6iw3j0z+M3L4rAPQo4oDLT7CpQaYjGGCpVYzAup7PvbIncO6gA19LFn7yqU6pamqqPKGcs7lQpid5r0GwloM/jMLEuRFOyXHUpdikawSLvz+l+BHPqm4aDz7Yy+0sf8paecZ0w2oRRSHsUteF3VeTYVYsRxSpZVu+0EoeSZdB/2crcu/hnHadsNT+irU1m//zBVUsjcOWfZDpTZijHS/LdMYNV0yzQr+2U= generated-by-azure"
+                                }
+                            ]
+                        },
+                        "provisionVMAgent": true,
+                        "patchSettings": {
+                            "patchMode": "ImageDefault",
+                            "assessmentMode": "ImageDefault"
+                        },
+                        "enableVMAgentPlatformUpdates": false
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "securityProfile": {
+                    "uefiSettings": {
+                        "secureBootEnabled": true,
+                        "vTpmEnabled": true
+                    },
+                    "securityType": "TrustedLaunch"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_labo0708_vm180_z3_externalid')]",
+                            "properties": {
+                                "deleteOption": "Delete"
+                            }
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                }
+            }
+        }
+    ]
+}

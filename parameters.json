@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_labo0708_vm_name": {
+            "value": null
+        },
+        "disks_labo0708_vm_disk1_da66e772e800466089b086ea3c7a1378_externalid": {
+            "value": null
+        },
+        "networkInterfaces_labo0708_vm180_z3_externalid": {
+            "value": null
+        }
+    }
+}
